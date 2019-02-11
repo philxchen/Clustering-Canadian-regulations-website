@@ -6,5 +6,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'clustering-regulations';
+  models: string[] = [
+    'Tf-idf',
+    'Doc2Vec'
+  ];
 }
