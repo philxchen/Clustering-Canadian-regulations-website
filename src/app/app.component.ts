@@ -7,7 +7,7 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   models: string[] = [
-    'Tf-idf',
+    'TF-IDF',
     'Doc2Vec'
   ];
 }

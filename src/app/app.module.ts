@@ -3,11 +3,13 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from '../material-module';
 import { AppComponent } from './app.component';
+import { PlotComponent } from './plot/plot.component';
 
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    PlotComponent
   ],
   imports: [
     BrowserModule,
