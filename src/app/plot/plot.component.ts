@@ -4,8 +4,7 @@ import { Result } from '../result';
 
 @Component({
   selector: 'app-plot',
-  templateUrl: './plot.component.html',
-  styleUrls: ['./plot.component.scss']
+  templateUrl: './plot.component.html'
 })
 export class PlotComponent implements OnInit {
   @ViewChild('scatterplot') private plotRef;

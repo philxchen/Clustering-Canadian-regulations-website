@@ -28,14 +28,16 @@ export class ParamsComponent implements OnInit {
   }
 
   private getModels(): string[] {
-    return this.paramsList
-      .map(params => params.model.name);
+    return Array.from(new Set(
+      this.paramsList
+        .map(params => params.model.name)));
   }
 
   private getAlgosByModel(model: string): string[] {
-    return this.paramsList
-      .filter(params => params.model.name === model)
-      .map(params => params.algorithm.name);
+    return Array.from(new Set(
+      this.paramsList
+        .filter(params => params.model.name === model)
+        .map(params => params.algorithm.name)));
   }
 
   private getAvailableParams(model: string, algo: string): Params[] {
