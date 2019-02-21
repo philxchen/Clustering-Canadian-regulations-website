@@ -1,0 +1,25 @@
+<mat-form-field *ngIf="paramsList; else elseBlock">
+  <mat-select placeholder="Model" [(value)]="selectedModel">
+    <mat-option *ngFor="let model of getModels()" [value]="model" [innerText]="model"></mat-option>
+  </mat-select>
+</mat-form-field>
+<ng-template #elseBlock>
+  <p matLine>Loading available models and algorithms...</p>
+</ng-template>
+
+<mat-form-field *ngIf="selectedModel">
+  <mat-select placeholder="Algorithm" [(value)]="selectedAlgo">
+    <mat-option *ngFor="let algo of getAlgosByModel(selectedModel)" [value]="algo" [innerText]="algo"></mat-option>
+  </mat-select>
+</mat-form-field>
+
+<mat-list *ngIf="selectedModel && selectedAlgo">
+  <mat-list-item *ngFor="let params of getAvailableParams(selectedModel, selectedAlgo)" (click)="getPoints(params)">
+    <p matLine>
+      {{selectedModel}}: {{params.model.params | json}}
+    </p>
+    <p matLine>
+      {{selectedAlgo}}: {{params.algorithm.params | json}}
+    </p>
+  </mat-list-item>
+</mat-list>

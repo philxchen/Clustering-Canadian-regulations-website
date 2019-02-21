@@ -1,8 +1,8 @@
-<h1 class="mat-h1">
-  Clustering Canadian Regulations
-</h1>
 <mat-form-field>
   <mat-select placeholder="Model">
     <mat-option *ngFor="let model of models" [value]="model" [innerText]="model"></mat-option>
   </mat-select>
 </mat-form-field>
+
+<app-params (result)="onGotPoints($event)"></app-params>
+<app-plot *ngIf="result" [result]="result"></app-plot>
