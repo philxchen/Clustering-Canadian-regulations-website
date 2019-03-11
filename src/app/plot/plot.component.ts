@@ -9,24 +9,49 @@ import { Result } from '../result';
 export class PlotComponent implements OnInit {
   @ViewChild('scatterplot') private plotRef;
   plot: Chart;
-  @Input() private result: Result;
+  private _result: Result;
+  @Input() set result(value: Result) {
+    // Update plot
+    this._result = value;
+    if (this.plot) {
+      this.plot.data.datasets = [{
+        data: value.points,
+        pointBackgroundColor: this.getPointsColors()
+      }];
+      // @ts-ignore
+      this.plot.options.tooltips.callbacks.label = (tooltipItem) => value.titles[tooltipItem.index];
+
+      this.plot.update();
+    }
+  }
 
   constructor() {
   }
 
-  ngOnInit() {
+  // adapted from https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs
+  // Generate a single random color
+  private static getRandomColor(): string {
+    const letters = '0123456789ABCDEF'.split('');
+    let color = '#';
+    for (let i = 0; i < 6; ++i) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+  }
+
+  ngOnInit(): void {
     this.plot = new Chart(this.plotRef.nativeElement, {
       type: 'scatter',
       data: {
         datasets: [{
-          data: this.result.points,
-          pointBackgroundColor: this.getPointsColors(),
+          data: this._result.points,
+          pointBackgroundColor: this.getPointsColors()
         }]
       },
       options: {
         tooltips: {
           callbacks: {
-            label: (tooltipItem) => this.result.titles[tooltipItem.index]
+            label: (tooltipItem) => this._result.titles[tooltipItem.index]
           }
         },
         scales: {
@@ -42,26 +67,15 @@ export class PlotComponent implements OnInit {
   // Get color for each point from color options
   private getPointsColors(): string[] {
     const colorOptions = this.generateRandomColors();
-    return this.result.labels.map(label => colorOptions[label]);
+    return this._result.labels.map(label => colorOptions[label]);
   }
 
   // Generate color options for labels
   private generateRandomColors(): string[] {
     const res = [];
-    for (let i = 0; i < new Set(this.result.labels).size; ++i) {
-      res.push(this.getRandomColor());
+    for (let i = 0; i < new Set(this._result.labels).size; ++i) {
+      res.push(PlotComponent.getRandomColor());
     }
     return res;
-  }
-
-  // adapted from https://stackoverflow.com/questions/25594478/different-color-for-each-bar-in-a-bar-chart-chartjs
-  // Generate a single random color
-  private getRandomColor(): string {
-    const letters = '0123456789ABCDEF'.split('');
-    let color = '#';
-    for (let i = 0; i < 6; ++i) {
-      color += letters[Math.floor(Math.random() * 16)];
-    }
-    return color;
   }
 }

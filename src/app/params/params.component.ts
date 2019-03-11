@@ -46,7 +46,8 @@ export class ParamsComponent implements OnInit {
   }
 
   private getPoints(params: Params): void {
-    this.resultService.getPointsByParams$(params)
+    this.resultService
+      .getPointsByParams$(params)
       .subscribe(points => this.result.emit(points));
   }
 }
